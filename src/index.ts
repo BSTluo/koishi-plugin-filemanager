@@ -9,11 +9,11 @@ import axios from 'axios';
 // okk))
 export default class FileManager extends Service
 {
-  static name: string = 'fileManager';
+  static name: string = 'filemanager';
 
   constructor(ctx: Context, config: any)
   {
-    super(ctx, 'fileManager');
+    super(ctx, 'filemanager');
     this.ctx = ctx;
     this.config = config;
     this.img = new img(ctx);
