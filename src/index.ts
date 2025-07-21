@@ -1,6 +1,8 @@
 import { Context, Schema, Service } from 'koishi';
 import { audio } from './audio';
 import { img } from './img';
+import FormData from 'form-data';
+import axios from 'axios';
 
 // 服务其实就是继承server类的一个类
 // 我正在看doc()
@@ -24,10 +26,32 @@ export default class FileManager extends Service
   img: img;
 
   audio: audio;
+
+  /**
+   * 生成临时文件名
+   * @returns YYYY-MM-DD hh:mm:ss
+   */
+  makeTempName(): string
+  {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  axios = axios; // 让axios可以在外部使用
+  FormData = FormData; // 让FormData可以在外部使用
+  
 }
 
 declare module 'koishi' {
-  interface Context {
+  interface Context
+  {
     fileManager: FileManager;
   }
 }

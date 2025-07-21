@@ -12,7 +12,7 @@ export class audio
   }
 
   // 已注册的音频床列表
-  private regList: Record<string, {url: string; upload: (file: Buffer, fileName: string, killTime: number) => string;}>; //俺瞅着型
+  private regList: Record<string, { url: string; upload: (file: Buffer, fileName: string) => Promise<string>; }>; //俺瞅着型
 
   /**
    * 注册音频床服务
@@ -21,7 +21,7 @@ export class audio
    * @param upload 上传函数，接收文件Buffer、文件名和过期时间，返回上传后的图片URL
    * @returns 
    */
-  reg(name: string, url: string, upload: (file: Buffer, fileName: string, killTime: number) => string)
+  reg(name: string, url: string, upload: (file: Buffer, fileName: string) => Promise<string>)
   {
     const nameList = Object.keys(this.regList);
 
@@ -32,7 +32,7 @@ export class audio
       this.regList[name] = {
         url: url,
         upload: upload
-      }
+      };
 
       return true;
     } else
@@ -53,14 +53,14 @@ export class audio
     // 进行一个速度的测
     let fastName: string = undefined;
     let fastSpeed: number = Infinity;
-  
+
     const nameList = Object.keys(this.regList);
     this.ctx.logger.info(`正在测试音频床服务`);
     for (const name of nameList)
     {
       const url = this.regList[name].url;
-      
-      const speed = await getLatency(this.ctx, url)
+
+      const speed = await getLatency(this.ctx, url);
       if (speed !== 'error' && speed < fastSpeed)
       {
         fastSpeed = speed;
@@ -85,10 +85,9 @@ export class audio
    * 上传音频到音频床服务
    * @param file 文件Buffer
    * @param fileName 要上传的文件名
-   * @param killTime 过期时间，单位为秒，默认0表示不过期
    * @returns 直链url
    */
-  async upload(file: Buffer, fileName: string, killTime: number = 0)
+  async upload(file: Buffer, fileName: string)
   {
     // 获取最快的音频床服务
     const fastName = this.fastName || await this.speedTest();
@@ -97,11 +96,13 @@ export class audio
     const url = this.regList[fastName].url;
     const upload = this.regList[fastName].upload;
 
-    try {
-      const resultUrl = upload(file, fileName, killTime);
-    this.ctx.logger.info(`音频上传成功: ${resultUrl}`);
+    try
+    {
+      const resultUrl = await upload(file, fileName);
+      this.ctx.logger.info(`音频上传成功: ${resultUrl}`);
       return resultUrl;
-    } catch (error) {
+    } catch (error)
+    {
       this.ctx.logger.error(`音频上传失败: ${error}`);
       return null;
     }

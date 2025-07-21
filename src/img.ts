@@ -12,7 +12,7 @@ export class img
   }
 
   // 已注册的图床列表
-  private regList: Record<string, {url: string; upload: (file: Buffer, fileName: string, killTime: number) => string;}>; //俺瞅着型
+  private regList: Record<string, {url: string; upload: (file: Buffer, fileName: string) => Promise<string>;}>; //俺瞅着型
 
   /**
    * 注册图床服务
@@ -21,7 +21,7 @@ export class img
    * @param upload 上传函数，接收文件Buffer、文件名和过期时间，返回上传后的图片URL
    * @returns 
    */
-  reg(name: string, url: string, upload: (file: Buffer, fileName: string, killTime: number) => string)
+  reg(name: string, url: string, upload: (file: Buffer, fileName: string) => Promise<string>)
   {
     const nameList = Object.keys(this.regList);
 
@@ -85,10 +85,9 @@ export class img
    * 上传图片到图床服务
    * @param file 文件Buffer
    * @param fileName 要上传的文件名
-   * @param killTime 过期时间，单位为秒，默认0表示不过期
    * @returns 直链url
    */
-  async upload(file: Buffer, fileName: string, killTime: number = 0)
+  async upload(file: Buffer, fileName: string)
   {
     // 获取最快的图床服务
     const fastName = this.fastName || await this.speedTest();
@@ -98,7 +97,7 @@ export class img
     const upload = this.regList[fastName].upload;
 
     try {
-      const resultUrl = upload(file, fileName, killTime);
+      const resultUrl = await upload(file, fileName);
       this.ctx.logger.info(`图片上传成功: ${resultUrl}`);
       return resultUrl;
     } catch (error) {
