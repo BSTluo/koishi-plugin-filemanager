@@ -56,6 +56,7 @@ export class img
   
     const nameList = Object.keys(this.regList);
     this.ctx.logger.info(`正在测试图床服务`);
+
     for (const name of nameList)
     {
       const url = this.regList[name].url;
