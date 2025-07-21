@@ -1,11 +1,33 @@
-import { Context, Schema } from 'koishi'
+import { Context, Schema, Service } from 'koishi';
+import { audio } from './audio';
+import { img } from './img';
 
-export const name = 'file-manager'
+// 服务其实就是继承server类的一个类
+// 我正在看doc()
+// okk))
+export default class FileManager extends Service
+{
+  static name: string = 'fileManager';
 
-export interface Config {}
+  constructor(ctx: Context, config: any)
+  {
+    super(ctx, 'fileManager');
+    this.ctx = ctx;
+    this.config = config;
+    this.img = new img(ctx);
+    this.img.speedTest();
 
-export const Config: Schema<Config> = Schema.object({})
+    this.audio = new audio(ctx);
+    this.audio.speedTest();
+  }
 
-export function apply(ctx: Context) {
-  // write your plugin here
+  img: img;
+
+  audio: audio;
+}
+
+declare module 'koishi' {
+  interface Context {
+    fileManager: FileManager;
+  }
 }
