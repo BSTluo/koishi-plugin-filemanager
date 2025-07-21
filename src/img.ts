@@ -12,7 +12,7 @@ export class img
   }
 
   // 已注册的图床列表
-  private regList: Record<string, {url: string; upload: (file: Buffer, fileName: string) => Promise<string>;}>; //俺瞅着型
+  private regList: Record<string, {url: string; upload: (file: Buffer, fileName: string) => Promise<string>;}> = {}; //俺瞅着型
 
   /**
    * 注册图床服务

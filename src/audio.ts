@@ -12,7 +12,7 @@ export class audio
   }
 
   // 已注册的音频床列表
-  private regList: Record<string, { url: string; upload: (file: Buffer, fileName: string) => Promise<string>; }>; //俺瞅着型
+  private regList: Record<string, { url: string; upload: (file: Buffer, fileName: string) => Promise<string>; }> = {}; //俺瞅着型
 
   /**
    * 注册音频床服务
@@ -55,6 +55,7 @@ export class audio
     let fastSpeed: number = Infinity;
 
     const nameList = Object.keys(this.regList);
+
     this.ctx.logger.info(`正在测试音频床服务`);
     for (const name of nameList)
     {

@@ -17,10 +17,8 @@ export default class FileManager extends Service
     this.ctx = ctx;
     this.config = config;
     this.img = new img(ctx);
-    this.img.speedTest();
 
     this.audio = new audio(ctx);
-    this.audio.speedTest();
   }
 
   img: img;
