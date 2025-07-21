@@ -50,6 +50,6 @@ export default class FileManager extends Service
 declare module 'koishi' {
   interface Context
   {
-    fileManager: FileManager;
+    filemanager: FileManager;
   }
 }
