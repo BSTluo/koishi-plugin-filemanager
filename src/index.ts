@@ -4,12 +4,14 @@ import { img } from './img';
 import FormData from 'form-data';
 import axios from 'axios';
 
-// 服务其实就是继承server类的一个类
-// 我正在看doc()
-// okk))
 export default class FileManager extends Service
 {
   static name: string = 'filemanager';
+
+  static usage = `# 配置说明
+
+1. 111
+`;
 
   constructor(ctx: Context, config: any)
   {
@@ -17,7 +19,6 @@ export default class FileManager extends Service
     this.ctx = ctx;
     this.config = config;
     this.img = new img(ctx);
-
     this.audio = new audio(ctx);
   }
 
@@ -27,7 +28,7 @@ export default class FileManager extends Service
 
   /**
    * 生成临时文件名
-   * @returns YYYY-MM-DD hh:mm:ss
+   * @returns YYYY-MM-DD-hh:mm:ss
    */
   makeTempName(): string
   {
@@ -39,7 +40,7 @@ export default class FileManager extends Service
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
 
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return `${year}-${month}-${day}-${hours}:${minutes}:${seconds}`;
   }
 
   axios = axios; // 让axios可以在外部使用
