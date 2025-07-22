@@ -61,7 +61,7 @@ export class img
       return true;
     }
     else{
-      this.ctx.logger.error(`尝试反注册了一个不存在的服务！: ${name}`);
+      this.ctx.logger.error(`尝试反注册了一个不存在的图床服务！: ${name}`);
     }
     return false;
   }

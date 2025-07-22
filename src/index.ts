@@ -8,6 +8,11 @@ export default class FileManager extends Service
 {
   static name: string = 'filemanager';
 
+  static usage = `# 配置说明
+
+1. 111
+`;
+
   constructor(ctx: Context, config: any)
   {
     super(ctx, 'filemanager');

@@ -42,6 +42,30 @@ export class audio
     }
   }
 
+  /**
+   * 反注册音频床服务
+   * @param name 音频床名称
+   * @returns 
+   */
+  unReg(name: string) 
+  {
+    if (name in this.regList) {
+      this.ctx.logger.info(`反注册音频床服务: ${name}`);
+      delete this.regList[name];
+
+      // 如果注销的是当前最快的服务，重置fastName
+      if (this.fastName == name) {
+        this.fastName = undefined;
+      }
+      
+      return true;
+    }
+    else{
+      this.ctx.logger.error(`尝试反注册了一个不存在的音频床服务！: ${name}`);
+    }
+    return false;
+  }
+
   fastName: string | undefined = undefined; // 最快的音频床服务名称
 
   /**
