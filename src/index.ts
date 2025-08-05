@@ -49,7 +49,8 @@ class FileManager extends Service {
 
 namespace FileManager {
   export interface Config { }
-
+  export const reusable = false
+  export const filter = false
   export const Config: z<Config> = z.object({})
 }
 
