@@ -1,11 +1,10 @@
-import { Context, Schema, Service } from 'koishi';
+import { Context, Schema, Service, z } from 'koishi';
 import { audio } from './audio';
 import { img } from './img';
 import FormData from 'form-data';
 import axios from 'axios';
 
-class FileManager extends Service
-{
+class FileManager extends Service {
   static name: string = 'filemanager';
 
   static usage = `# 配置说明
@@ -15,8 +14,7 @@ class FileManager extends Service
 3. 不知道启用什么？ 试试 在插件商店里搜索 filemanager ！
 `;
 
-  constructor(ctx: Context, config: any)
-  {
+  constructor(ctx: Context, config: any) {
     super(ctx, 'filemanager');
     this.ctx = ctx;
     this.config = config;
@@ -32,8 +30,7 @@ class FileManager extends Service
    * 生成临时文件名
    * @returns YYYY-MM-DD-hh:mm:ss
    */
-  makeTempName(): string
-  {
+  makeTempName(): string {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -47,24 +44,20 @@ class FileManager extends Service
 
   axios = axios; // 让axios可以在外部使用
   FormData = FormData; // 让FormData可以在外部使用
-  
+
 }
 
 namespace FileManager {
-  export interface Config{
-    abab: string;
-  }
-
-  export const Config: Schema<Config> = Schema.object({
-    abab: Schema.string().description('目前这个插件没有设定。这个设定在这里只是为了防止他因为代码里没有配置设定而报错（').default('enjoy your day!'),
-  });
+  export interface Config { }
+  export const reusable = false
+  export const filter = false
+  export const Config: z<Config> = z.object({})
 }
 
 export default FileManager;
 
 declare module 'koishi' {
-  interface Context
-  {
+  interface Context {
     filemanager: FileManager;
   }
 }
