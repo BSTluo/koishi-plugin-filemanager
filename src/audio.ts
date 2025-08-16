@@ -121,14 +121,12 @@ export class audio
     const url = this.regList[fastName].url;
     const upload = this.regList[fastName].upload;
 
-    try
-    {
+    try {
       const resultUrl = await upload(file, fileName);
-      this.ctx.logger.info(`音频上传成功: ${resultUrl}`);
+      if (this.ctx.config.uploadInfo == true){this.ctx.logger.info(`音频上传成功: ${resultUrl}`);}
       return resultUrl;
-    } catch (error)
-    {
-      this.ctx.logger.error(`音频上传失败: ${error}`);
+    } catch (error) {
+      if (this.ctx.config.uploadError == true){this.ctx.logger.error(`音频上传失败: ${error}`);}
       return null;
     }
   }

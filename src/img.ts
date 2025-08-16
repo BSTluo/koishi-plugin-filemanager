@@ -123,10 +123,10 @@ export class img
 
     try {
       const resultUrl = await upload(file, fileName);
-      this.ctx.logger.info(`图片上传成功: ${resultUrl}`);
+      if (this.ctx.config.uploadInfo == true){this.ctx.logger.info(`图片上传成功: ${resultUrl}`);}
       return resultUrl;
     } catch (error) {
-      this.ctx.logger.error(`图片上传失败: ${error}`);
+      if (this.ctx.config.uploadError == true){this.ctx.logger.error(`图片上传失败: ${error}`);}
       return null;
     }
   }

@@ -52,11 +52,14 @@ class FileManager extends Service
 
 namespace FileManager {
   export interface Config{
-    abab: string;
+    uploadInfo: boolean,
+    uploadError: boolean,
   }
 
   export const Config: Schema<Config> = Schema.object({
-    abab: Schema.string().description('目前这个插件没有设定。这个设定在这里只是为了防止他因为代码里没有配置设定而报错（').default('enjoy your day!'),
+    // abab: Schema.string().description('目前这个插件没有设定。这个设定在这里只是为了防止他因为代码里没有配置设定而报错（').default('enjoy your day!'),
+    uploadInfo: Schema.boolean().description('控制台是否展示上传信息').default(false),
+    uploadError: Schema.boolean().description('控制台是否展示上传报错信息').default(true),
   });
 }
 
