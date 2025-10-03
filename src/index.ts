@@ -8,7 +8,11 @@ class FileManager extends Service
 {
   static name: string = 'filemanager';
 
-  static usage = `# 配置说明
+  static usage = ` # Deprecated!
+  从 v0.6.0 开始， iirose-adapter 转为使用 assets 系列插件存储
+  请根据更新过的教程配置 assets !
+  
+  ### v0.5.x 配置说明
 
 1. 对，这个就是目前新的图床实现方式（
 2. 你需要启用至少一个 filemanager 的附属插件 来让 adapter-iirose 正常工作
